@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecipeBook.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CoffeeMaker_JUnit_Golden</a> &gt; <a href="index.source.html" class="el_package">edu.ncsu.csc326.coffeemaker</a> &gt; <span class="el_source">RecipeBook.java</span></div><h1>RecipeBook.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2009,  Sarah Heckman, Laurie Williams, Dright Ho
+ * All Rights Reserved.
+ * 
+ * Permission has been explicitly granted to the University of Minnesota 
+ * Software Engineering Center to use and distribute this source for 
+ * educational purposes, including delivering online education through
+ * Coursera or other entities.  
+ * 
+ * No warranty is given regarding this software, including warranties as
+ * to the correctness or completeness of this software, including 
+ * fitness for purpose.
+ */
+package edu.ncsu.csc326.coffeemaker;
+
+public class RecipeBook {
+	
+	/** Array of recipes in coffee maker*/
+	private Recipe [] recipeArray;
+	/** Number of recipes in coffee maker */
+<span class="fc" id="L21">	private final int NUM_RECIPES = 3; </span>
+	
+	/**
+	 * Default constructor for a RecipeBook.
+	 */
+<span class="fc" id="L26">	public RecipeBook() {</span>
+<span class="fc" id="L27">		recipeArray = new Recipe[NUM_RECIPES];</span>
+<span class="fc" id="L28">	}</span>
+	
+	/**
+	 * Returns the recipe array.
+	 * @param r
+	 * @return Recipe[]
+	 */
+	public synchronized Recipe[] getRecipes() {
+<span class="fc" id="L36">		return recipeArray;</span>
+	}
+	
+	public synchronized boolean addRecipe(Recipe r) {
+		//Assume recipe doesn't exist in the array until 
+		//find out otherwise
+<span class="fc" id="L42">		boolean exists = false;</span>
+		//Check that recipe doesn't already exist in array
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		for (int i = 0; i &lt; recipeArray.length; i++ ) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">			if (r.equals(recipeArray[i])) {</span>
+<span class="fc" id="L46">				exists = true;</span>
+			}
+		}
+		//Assume recipe cannot be added until find an empty
+		//spot
+<span class="fc" id="L51">		boolean added = false;</span>
+		//Check for first empty spot in array
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		if (!exists) {</span>
+<span class="fc bfc" id="L54" title="All 4 branches covered.">			for (int i = 0; i &lt; recipeArray.length &amp;&amp; !added; i++) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">				if (recipeArray[i] == null) {</span>
+<span class="fc" id="L56">					recipeArray[i] = r;</span>
+<span class="fc" id="L57">					added = true;</span>
+				}
+			}
+		}
+<span class="fc" id="L61">		return added;</span>
+	}
+
+	/**
+	 * Returns the name of the recipe deleted at the position specified
+	 * and null if the recipe does not exist.
+	 * @param recipeToDelete
+	 * @return String
+	 */
+	public synchronized String deleteRecipe(int recipeToDelete) {
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">		if (recipeToDelete &lt; 0 || recipeToDelete &gt;= recipeArray.length) {</span>
+<span class="fc" id="L72">			return null;</span>
+		}
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		if (recipeArray[recipeToDelete] != null) {</span>
+<span class="fc" id="L75">			String recipeName = recipeArray[recipeToDelete].getName();</span>
+<span class="fc" id="L76">			recipeArray[recipeToDelete] = null;</span>
+<span class="fc" id="L77">			return recipeName;</span>
+		} else {
+<span class="fc" id="L79">			return null;</span>
+		}
+	}
+	
+	/**
+	 * Returns the name of the recipe edited at the position specified
+	 * and null if the recipe does not exist.
+	 * @param recipeToEdit
+	 * @param newRecipe
+	 * @return String
+	 */
+	public synchronized String editRecipe(int recipeToEdit, Recipe newRecipe) {
+<span class="pc bpc" id="L91" title="1 of 4 branches missed.">		if (recipeToEdit &lt; 0 || recipeToEdit &gt;= recipeArray.length) {</span>
+<span class="fc" id="L92">			return null;</span>
+		}
+<span class="fc bfc" id="L94" title="All 2 branches covered.">		if (recipeArray[recipeToEdit] != null) {</span>
+<span class="fc" id="L95">			String recipeName = recipeArray[recipeToEdit].getName();</span>
+<span class="fc" id="L96">			recipeArray[recipeToEdit] = newRecipe;</span>
+<span class="fc" id="L97">			newRecipe.setName(recipeName);</span>
+<span class="fc" id="L98">			return recipeName;</span>
+		} else {
+<span class="fc" id="L100">			return null;</span>
+		}
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

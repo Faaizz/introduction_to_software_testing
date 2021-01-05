@@ -1,0 +1,2 @@
+edu/ncsu/csc326/coffeemaker/CoffeeMakerTest.java
+ edu.ncsu.csc326.coffeemaker.CoffeeMakerTest
